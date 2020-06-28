@@ -33,15 +33,15 @@ def Transform_12(vals):
 def Transform_11(vals):
     arr = np.zeros((9147, vals.shape[1]))
     for i in range(3049):
-        arr[i] = runningSum(vals, i, 3049, 0, 3)
-        arr[i + 3049] = runningSum(vals, i, 3049, 4, 6)
-        arr[i + 3049 * 2] = runningSum(vals, i, 3049, 7, 9)
+        arr[i] = np.sum(vals[i:3049 * 4:3049], axis = 0)
+        arr[i + 3049] = np.sum(vals[3049 * 4 + i:3049 * 7:3049], axis = 0)
+        arr[i + 3049 * 2] = np.sum(vals[3049 * 7 + i:3049 * 10:3049], axis = 0)
     return arr
 
 def Transform_10(vals):
     arr = np.zeros((3049, vals.shape[1]))
     for i in range(3049):
-        arr[i] = np.sum(vals[range(i, 30490, 3049)], axis = 0)
+        arr[i] = np.sum(vals[i:30490:3049], axis = 0)
     return arr
 
 current_id = ""
@@ -55,7 +55,7 @@ department_indices.append(3049)
 def Transform_9(vals):
     arr = np.zeros((70, vals.shape[1]))
     for i in range(70):
-        arr[i] = np.sum(vals[range(3049 * (i//7), 3049 * ((i//7) + 1))][range(department_indices[i % 7], department_indices[i % 7 + 1])], axis = 0)
+        arr[i] = np.sum(vals[3049 * (i//7):3049 * ((i//7) + 1)][department_indices[i % 7]:department_indices[i % 7 + 1]], axis = 0)
     return arr
 
 current_id = ""
@@ -69,16 +69,16 @@ category_indices.append(3049)
 def Transform_8(vals):
     arr = np.zeros((30, vals.shape[1]))
     for i in range(30):
-        arr[i] = np.sum(vals[range(3049 * (i//3), 3049 * ((i//3) + 1))][range(category_indices[i % 3], category_indices[i % 3 + 1])], axis = 0)
+        arr[i] = np.sum(vals[3049 * (i//3):3049 * ((i//3) + 1)][category_indices[i % 3]:category_indices[i % 3 + 1]], axis = 0)
     return arr
 
 def Transform_7(vals):
     new_vals = Transform_9(vals)
     arr = np.zeros((21, vals.shape[1]))
     for i in range(7):
-        arr[i] = np.sum(new_vals[range(i, i + 7 * 4, 7)], axis = 0)
-        arr[i + 7] = np.sum(new_vals[range(i + 7 * 4, i + 7 * 7, 7)], axis = 0)
-        arr[i + 14] = np.sum(new_vals[range(i + 7 * 7, i + 7 * 10, 7)], axis = 0)
+        arr[i] = np.sum(new_vals[i : i + 7 * 4 : 7], axis = 0)
+        arr[i + 7] = np.sum(new_vals[i + 7 * 4 : i + 7 * 7:7], axis = 0)
+        arr[i + 14] = np.sum(new_vals[i + 7 * 7 : i + 7 * 10 : 7], axis = 0)
     return arr
 
 def Transform_6(vals):
